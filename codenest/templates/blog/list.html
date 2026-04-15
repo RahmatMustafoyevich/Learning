@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Blog</h1>
+<div class="row g-3">
+  {% for post in posts %}
+  <div class="col-md-6">
+    <article class="card h-100">
+      {% if post.image %}<img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">{% endif %}
+      <div class="card-body">
+        <h2 class="h5">{{ post.title }}</h2>
+        <p>{{ post.body|truncatewords:30 }}</p>
+        <form method="post" action="{% url 'blog:like' post.id %}">{% csrf_token %}<button class="btn btn-outline-danger btn-sm">❤️ Like ({{ post.likes.count }})</button></form>
+      </div>
+    </article>
+  </div>
+  {% empty %}<p>Maqolalar yo'q.</p>{% endfor %}
+</div>
+{% endblock %}

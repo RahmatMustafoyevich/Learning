@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Manbalar</h1>
+<table class="table">
+  <thead><tr><th>Nomi</th><th>Turi</th><th>Yuklab olish</th></tr></thead>
+  <tbody>
+    {% for item in items %}
+    <tr><td>{{ item.title }}</td><td>{{ item.get_type_display }}</td><td><a href="{{ item.file.url }}">Fayl</a></td></tr>
+    {% empty %}
+    <tr><td colspan="3">Hozircha manbalar yo'q.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
