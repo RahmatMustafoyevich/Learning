@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ lesson.title }}</h1>
+<div class="ratio ratio-16x9 mb-3">
+  <iframe src="{{ lesson.video_url }}" title="{{ lesson.title }}" allowfullscreen></iframe>
+</div>
+<p>{{ lesson.content }}</p>
+
+<form method="post" action="{% url 'courses:rate_lesson' lesson.id %}" class="mb-4">
+  {% csrf_token %}
+  <label class="form-label">Darsga baho bering (1-5 yulduz)</label>
+  {{ rating_form.stars }}
+  <button class="btn btn-warning btn-sm">Baholash</button>
+  <p class="mt-2">O'rtacha baho: {{ average_rating|default:'Hali baholanmagan' }}</p>
+</form>
+
+<h3>Izohlar</h3>
+<ul class="list-group mb-3">
+  {% for comment in lesson.comments.all %}
+  <li class="list-group-item"><strong>{{ comment.user.username }}:</strong> {{ comment.body }}</li>
+  {% empty %}<li class="list-group-item">Izohlar yo'q.</li>{% endfor %}
+</ul>
+<form method="post">
+  {% csrf_token %}
+  {{ comment_form.body }}
+  <button class="btn btn-primary btn-sm mt-2">Yuborish</button>
+</form>
+{% endblock %}

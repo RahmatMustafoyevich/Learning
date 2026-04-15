@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Kurslar</h1>
+<div class="accordion" id="coursesAccordion">
+  {% for course in courses %}
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#course-{{ course.id }}">
+        {{ course.title }}
+      </button>
+    </h2>
+    <div id="course-{{ course.id }}" class="accordion-collapse collapse" data-bs-parent="#coursesAccordion">
+      <div class="accordion-body">
+        <p>{{ course.description }}</p>
+        <ol>
+          {% for lesson in course.lessons.all %}
+          <li><a href="{% url 'courses:lesson_detail' lesson.id %}">{{ lesson.title }}</a></li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>Hozircha kurslar mavjud emas.</p>
+  {% endfor %}
+</div>
+{% endblock %}
